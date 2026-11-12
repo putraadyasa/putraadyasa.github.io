@@ -2,15 +2,15 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500&display=swap">
 
 <style>
-  /* Full-bleed editorial grid — off-white ground, bold mono display, solid color project blocks */
   :root {
     --bg:      #F5F3EE;
     --ink:     #111110;
     --muted:   #5C5A55;
     --faint:   #A09D97;
     --border:  #D8D5CE;
-    --block-1: #1A6B3C;   /* deep green — Barcelona */
-    --block-2: #D4500A;   /* burnt orange — Balaji  */
+    --block-1: #1A6B3C;
+    --block-2: #D4500A;
+    --block-3: #1A4A8A;
     --block-txt: #FFFFFF;
     --ff-mono: 'IBM Plex Mono', 'Courier New', monospace;
     --ff-sans: 'IBM Plex Sans', system-ui, sans-serif;
@@ -25,6 +25,7 @@
       --border:  #2A2925;
       --block-1: #1A6B3C;
       --block-2: #D4500A;
+      --block-3: #1A4A8A;
       --block-txt: #FFFFFF;
       color-scheme: dark;
     }
@@ -38,6 +39,7 @@
     --border:  #2A2925;
     --block-1: #1A6B3C;
     --block-2: #D4500A;
+    --block-3: #1A4A8A;
     --block-txt: #FFFFFF;
     color-scheme: dark;
   }
@@ -186,8 +188,9 @@
   .project-block:hover { opacity: 0.92; }
   .project-block:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
 
-  .project-block.barcelona { background: var(--block-1); }
-  .project-block.balaji    { background: var(--block-2); }
+  .project-block.barcelona   { background: var(--block-1); }
+  .project-block.balaji      { background: var(--block-2); }
+  .project-block.discovering { background: var(--block-3); }
 
   .block-eyebrow {
     font-family: var(--ff-mono);
@@ -345,8 +348,8 @@
     </div>
     <div class="header-meta" aria-hidden="true">
       Dublin, Ireland<br>
-      Oct 2026<br>
-      2 projects
+      Nov 2026<br>
+      3 projects
     </div>
   </header>
 
@@ -354,6 +357,21 @@
   <section aria-label="Projects">
     <p class="section-label">Projects</p>
     <div class="projects">
+
+      <a class="project-block discovering" href="https://www.kaggle.com/code/putraadyasa/discovering-barcelona" target="_blank">
+        <div>
+          <p class="block-eyebrow">03 · Demographics · Python + pandas</p>
+          <h2 class="block-title">Discovering Barcelona</h2>
+          <p class="block-desc">Exploratory data analysis of Barcelona's demographics across five phases — population, migration, births &amp; deaths, life expectancy, unemployment, and names.</p>
+          <div class="block-chips">
+            <span class="chip">Python · pandas</span>
+            <span class="chip">matplotlib · plotly</span>
+            <span class="chip">Kaggle dataset</span>
+            <span class="chip">5 phases</span>
+          </div>
+        </div>
+        <span class="block-arrow" aria-hidden="true">→</span>
+      </a>
 
       <a class="project-block barcelona" href="barcelona.html">
         <div>
@@ -397,21 +415,21 @@
       </div>
       <div class="skill-group">
         <div class="skill-name">Python</div>
-        <div class="skill-list">pandas<br>scipy<br>Pearson correlation<br>Google Colab</div>
+        <div class="skill-list">pandas<br>matplotlib<br>plotly · scipy<br>Google Colab</div>
       </div>
       <div class="skill-group">
         <div class="skill-name">Visualisation</div>
-        <div class="skill-list">Tableau Public<br>Dashboard design<br>Kaggle notebooks</div>
+        <div class="skill-list">Tableau Public<br>Dashboard design<br>Sankey diagrams<br>Kaggle notebooks</div>
       </div>
       <div class="skill-group">
         <div class="skill-name">Background</div>
-        <div class="skill-list">Trust &amp; Safety<br>Content moderation<br>Environmental Eng.<br>BEng · Trisakti 2019</div>
+        <div class="skill-list">Trust &amp; Safety<br>Content moderation<br>Environmental Eng.<br>BEng · Trisakti University 2019</div>
       </div>
     </div>
   </section>
 
   <footer class="site-footer">
-    <span class="footer-name">Putra Adyasa · Dublin, Ireland</span>
+    <span class="footer-name">Putra Adyasa Jatnika · Dublin, Ireland</span>
     <span class="footer-note">putraadyasa@gmail.com</span>
   </footer>
 
