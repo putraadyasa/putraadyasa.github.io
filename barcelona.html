@@ -1,4 +1,4 @@
-<title>Barcelona Air Quality Report</title>
+<title>Barcelona Data Projects</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500&display=swap">
 
 <style>
@@ -413,7 +413,7 @@
     margin-top: 4px;
   }
 
-  /* STAT TILES for Discovering BCN */
+  /* STAT TILES */
   .stat-row {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -468,7 +468,7 @@
     margin: 0;
   }
 
-  /* LIMITATIONS */
+  /* LIMITATIONS / FINDINGS LIST */
   .limitations-list {
     display: flex;
     flex-direction: column;
@@ -549,6 +549,105 @@
     min-width: 0;
   }
 
+  /* CHART GALLERY */
+  .chart-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 28px;
+  }
+
+  .chart-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .chart-card.wide {
+    grid-column: 1 / -1;
+  }
+
+  .chart-phase {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .chart-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+
+  .chart-desc {
+    font-size: 12px;
+    color: var(--faint);
+    line-height: 1.5;
+  }
+
+  .chart-tech {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+
+  .chart-chip {
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: var(--accent-light);
+    color: var(--accent);
+    letter-spacing: 0.04em;
+  }
+
+  /* DISCLAIMER */
+  .disclaimer {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px 28px;
+    margin-top: 32px;
+  }
+
+  .disclaimer-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 12px;
+    letter-spacing: 0.02em;
+  }
+
+  .disclaimer p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin: 0 0 10px;
+  }
+
+  .disclaimer p:last-child { margin-bottom: 0; }
+
+  .disclaimer a { color: var(--accent); text-decoration: none; }
+  .disclaimer a:hover { text-decoration: underline; }
+
+  .disclaimer blockquote {
+    margin: 12px 0 0;
+    padding-left: 16px;
+    border-left: 3px solid var(--accent);
+    font-style: italic;
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
   /* LINKS ROW */
   .links-row {
     display: flex;
@@ -605,6 +704,7 @@
   @media (max-width: 540px) {
     .findings-grid { grid-template-columns: 1fr; }
     .stat-row { grid-template-columns: repeat(2, 1fr); }
+    .chart-gallery { grid-template-columns: 1fr; }
     .toc a { font-size: 11px; padding: 3px 8px; }
   }
 
@@ -613,257 +713,35 @@
   }
 </style>
 
-<!-- sticky nav -->
-<nav class="toc" aria-label="Page sections">
-  <a href="#overview">Overview</a>
-  <a href="#dataset">Dataset</a>
-  <a href="#methodology">Methodology</a>
-  <a href="#findings">Findings</a>
-  <a href="#limitations">Limitations</a>
-  <a href="#conclusion">Conclusion</a>
-</nav>
+<!-- sticky nav — updates based on active project -->
+<nav class="toc" aria-label="Page sections" id="main-toc"></nav>
 
 <div class="page-wrap">
 
   <!-- PROJECT SWITCHER -->
   <div class="project-switcher">
-    <button class="proj-btn active" onclick="switchProject('aq')">Barcelona Air Quality</button>
-    <button class="proj-btn" onclick="switchProject('bcn')">Discovering Barcelona</button>
+    <button class="proj-btn active" onclick="switchProject('bcn')">Discovering Barcelona</button>
+    <button class="proj-btn" onclick="switchProject('aq')">Barcelona Air Quality</button>
   </div>
 
-  <!-- ============================================================ -->
-  <!-- PROJECT 1: AIR QUALITY -->
-  <!-- ============================================================ -->
-  <div class="project-view active" id="proj-aq">
-
-    <header class="report-header">
-      <p class="report-tag">Data Analysis · Barcelona</p>
-      <h1 class="report-title">Does air quality affect life expectancy in Barcelona?</h1>
-      <p class="report-subtitle">A district-level analysis using open data from the Barcelona city government — cleaning raw datasets in BigQuery SQL, then testing correlations in Python.</p>
-      <div class="report-meta">
-        <div class="meta-item">
-          <span class="meta-label">Author</span>
-          <span class="meta-value">Putra Adyasa</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Tools</span>
-          <span class="meta-value">BigQuery SQL · Python · scipy</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Data source</span>
-          <span class="meta-value"><a href="https://opendata-ajuntament.barcelona.cat/en" target="_blank">Open Data BCN</a></span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Code</span>
-          <span class="meta-value">
-            <a href="https://github.com/putraadyasa/barcelona-air-quality" target="_blank">GitHub</a>
-            &nbsp;·&nbsp;
-            <a href="https://www.kaggle.com/code/putraadyasa/v1-barcelona-air-quality-analysis" target="_blank">Kaggle</a>
-          </span>
-        </div>
-      </div>
-    </header>
-
-    <section class="section" id="overview">
-      <p class="section-label">Overview</p>
-      <h2 class="section-heading">The question</h2>
-      <div class="section-body">
-        <p>Air pollution is one of the leading environmental health risks in European cities. Barcelona, like many dense urban centres, has districts with measurable differences in pollutant levels. This project asks: do the districts with worse air quality also have lower life expectancy?</p>
-        <p>Using three pollutants — NO₂, O₃, and PM10 — measured across 10 Barcelona districts in November 2017, and life expectancy data from 2006–2014, I ran a Pearson correlation test to look for a statistical relationship.</p>
-      </div>
-    </section>
-
-    <section class="section" id="dataset">
-      <p class="section-label">Dataset</p>
-      <h2 class="section-heading">Three datasets, cleaned and joined</h2>
-      <div class="section-body">
-        <p>All data comes from the <a href="https://opendata-ajuntament.barcelona.cat/en" target="_blank">Open Data BCN</a> platform, a public data portal run by the Barcelona city government.</p>
-      </div>
-      <div class="dataset-grid">
-        <div class="dataset-card">
-          <div class="dataset-name">Air Quality</div>
-          <div class="dataset-desc">NO₂, O₃, PM10 readings by station · November 2017</div>
-        </div>
-        <div class="dataset-card">
-          <div class="dataset-name">Life Expectancy</div>
-          <div class="dataset-desc">Average by district · 2006–2014 rolling windows</div>
-        </div>
-        <div class="dataset-card">
-          <div class="dataset-name">Population</div>
-          <div class="dataset-desc">District population totals · 2013–2017</div>
-        </div>
-      </div>
-
-      <button class="code-toggle" onclick="toggleCode('code-cleaning')" aria-expanded="false" aria-controls="code-cleaning">
-        <i class="code-arrow" id="arrow-cleaning">▶</i> View SQL — data cleaning (NO₂ example)
-      </button>
-      <div class="code-wrap" id="code-cleaning" hidden>
-        <pre>-- 04_cleaning_air_quality.sql
--- Remove 'NA' strings, deduplicate stations using median,
--- and normalise district names for joining.
-
-WITH raw AS (
-  SELECT
-    station_name,
-    district,
-    NULLIF(value, 'NA') AS value_clean,
-    pollutant
-  FROM `barcelona.air_quality_nov2017`
-  WHERE pollutant = 'NO2'
-),
-median_per_district AS (
-  SELECT
-    district,
-    PERCENTILE_CONT(CAST(value_clean AS FLOAT64), 0.5)
-      OVER (PARTITION BY district) AS median_value
-  FROM raw
-  WHERE value_clean IS NOT NULL
-)
-SELECT
-  TRIM(REPLACE(REPLACE(district, 'à', 'a'), 'è', 'e')) AS district_clean,
-  ROUND(AVG(median_value), 2) AS avg_NO2
-FROM median_per_district
-GROUP BY district_clean
-ORDER BY avg_NO2 DESC;</pre>
-      </div>
-    </section>
-
-    <section class="section" id="methodology">
-      <p class="section-label">Methodology</p>
-      <h2 class="section-heading">From raw data to correlation test</h2>
-      <div class="steps">
-        <div class="step">
-          <div class="step-title">Clean each dataset in BigQuery</div>
-          <div class="step-body">Used NULLIF() to handle 'NA' strings, PERCENTILE_CONT for deduplicating measurement stations, and TRIM/REPLACE for normalising Catalan district names so tables could be joined cleanly.</div>
-        </div>
-        <div class="step">
-          <div class="step-title">Aggregate pollutants per district</div>
-          <div class="step-body">Computed average NO₂, O₃, and PM10 concentration per district. Joined with life expectancy data on district name. This produced a table of 10 rows — one per Barcelona district.</div>
-        </div>
-        <div class="step">
-          <div class="step-title">Export and test in Python</div>
-          <div class="step-body">Ran scipy.stats.pearsonr() on each pollutant against average life expectancy. Generated scatter plots to visualise the relationship. Assessed statistical significance using p-value threshold of 0.05.</div>
-        </div>
-      </div>
-
-      <button class="code-toggle" onclick="toggleCode('code-python')" aria-expanded="false" aria-controls="code-python">
-        <i class="code-arrow" id="arrow-python">▶</i> View Python — Pearson correlation
-      </button>
-      <div class="code-wrap" id="code-python" hidden>
-        <pre>from scipy import stats
-import pandas as pd
-
-df = pd.read_csv('/kaggle/input/datasets/putraadyasa/barcelona-analysis/barcelona_NO2.csv')
-
-# Pearson correlation: NO2 vs life expectancy
-r, p = stats.pearsonr(df['avg_NO2'], df['life_expectancy'])
-
-print(f'NO2  →  r = {r:.3f},  p-value = {p:.3f}')
-# Output: NO2  →  r = -0.232,  p-value = 0.617</pre>
-      </div>
-    </section>
-
-    <section class="section" id="findings">
-      <p class="section-label">Findings</p>
-      <h2 class="section-heading">No statistically significant correlation found</h2>
-      <div class="section-body">
-        <p>All three pollutants showed weak correlations and p-values well above the 0.05 significance threshold. The result is inconclusive — not a null result, but a data limitation result.</p>
-      </div>
-
-      <div class="findings-grid">
-        <div class="finding-cell">
-          <span class="finding-pollutant">NO₂ · ~28 µg/m³ avg</span>
-          <span class="finding-r negative">−0.232</span>
-          <span class="finding-pval">p = 0.617</span>
-          <span class="finding-sig">Not significant</span>
-        </div>
-        <div class="finding-cell">
-          <span class="finding-pollutant">O₃ · ~35 µg/m³ avg</span>
-          <span class="finding-r positive">+0.223</span>
-          <span class="finding-pval">p = 0.719</span>
-          <span class="finding-sig">Not significant</span>
-        </div>
-        <div class="finding-cell">
-          <span class="finding-pollutant">PM10 · ~22 µg/m³ avg</span>
-          <span class="finding-r negative">−0.171</span>
-          <span class="finding-pval">p = 0.783</span>
-          <span class="finding-sig">Not significant</span>
-        </div>
-      </div>
-
-      <div class="verdict-box">
-        <p>A p-value above 0.05 means we cannot rule out that the correlation happened by chance. With only 10 data points and a time mismatch between datasets, these results cannot confirm or deny a real relationship between air quality and life expectancy in Barcelona.</p>
-      </div>
-    </section>
-
-    <section class="section" id="limitations">
-      <p class="section-label">Limitations</p>
-      <h2 class="section-heading">Why the result may not tell the full story</h2>
-      <div class="limitations-list">
-        <div class="limitation">
-          <span class="limitation-icon">⏱</span>
-          <div>
-            <div class="limitation-title">Time mismatch</div>
-            <div class="limitation-body">Air quality data is a single snapshot from November 2017. Life expectancy is an average from rolling 5-year windows between 2006 and 2014. These time periods do not overlap.</div>
-          </div>
-        </div>
-        <div class="limitation">
-          <span class="limitation-icon">📏</span>
-          <div>
-            <div class="limitation-title">Small sample size</div>
-            <div class="limitation-body">The analysis uses 10 data points — one per district. Statistical tests need larger samples to produce reliable results. 10 points is insufficient for Pearson correlation to be meaningful.</div>
-          </div>
-        </div>
-        <div class="limitation">
-          <span class="limitation-icon">🔍</span>
-          <div>
-            <div class="limitation-title">Missing confounders</div>
-            <div class="limitation-body">Life expectancy is strongly influenced by income level, healthcare access, lifestyle, and housing quality — none of which are in this dataset. Air quality alone explains only a fraction of the variation.</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="conclusion">
-      <p class="section-label">Conclusion</p>
-      <h2 class="section-heading">What I learned</h2>
-      <div class="section-body">
-        <p>This project demonstrates a complete analytics workflow: raw open data → SQL cleaning → Python statistical testing → honest reporting of results. The null result is a legitimate outcome — real analysis often produces inconclusive findings, and knowing why the data falls short is part of the work.</p>
-        <p>A stronger analysis would require multi-year air quality data matched to the same time period as the health data, neighborhood-level granularity, and additional socioeconomic variables. That is the next version of this project.</p>
-      </div>
-
-      <div class="links-row">
-        <a class="link-pill" href="https://github.com/putraadyasa/barcelona-air-quality" target="_blank">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          GitHub repo
-        </a>
-        <a class="link-pill" href="https://www.kaggle.com/code/putraadyasa/v1-barcelona-air-quality-analysis" target="_blank">
-          <svg width="16" height="16" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M16 0C7.163 0 0 7.163 0 16s7.163 16 16 16 16-7.163 16-16S24.837 0 16 0zm5.992 23.016l-5.04-5.816-1.584 1.68v4.136H12V8.984h3.368v6.216l6.24-6.216h4.2l-6.36 6.296 6.552 7.736h-4.008z"/></svg>
-          Kaggle notebook
-        </a>
-      </div>
-    </section>
-
-  </div><!-- /proj-aq -->
-
 
   <!-- ============================================================ -->
-  <!-- PROJECT 2: DISCOVERING BARCELONA -->
+  <!-- PROJECT 1: DISCOVERING BARCELONA (default) -->
   <!-- ============================================================ -->
-  <div class="project-view" id="proj-bcn">
+  <div class="project-view active" id="proj-bcn">
 
     <header class="report-header">
       <p class="report-tag">Exploratory Data Analysis · Barcelona</p>
       <h1 class="report-title">Discovering Barcelona</h1>
-      <p class="report-subtitle">A demographic portrait of Barcelona across five dimensions — population, migration, births & deaths, life expectancy, unemployment, and names — using Python and pandas.</p>
+      <p class="report-subtitle">A demographic portrait of Barcelona across five dimensions — population, migration, births &amp; deaths, life expectancy, unemployment, and names — using Python and pandas.</p>
       <div class="report-meta">
         <div class="meta-item">
           <span class="meta-label">Author</span>
-          <span class="meta-value">Putra Adyasa</span>
+          <span class="meta-value">Putra Adyasa Jatnika</span>
         </div>
         <div class="meta-item">
           <span class="meta-label">Tools</span>
-          <span class="meta-value">Python · pandas · matplotlib · plotly</span>
+          <span class="meta-value">Python · pandas · matplotlib · numpy · wordcloud</span>
         </div>
         <div class="meta-item">
           <span class="meta-label">Data source</span>
@@ -880,7 +758,8 @@ print(f'NO2  →  r = {r:.3f},  p-value = {p:.3f}')
       </div>
     </header>
 
-    <section class="section">
+    <!-- OVERVIEW -->
+    <section class="section" id="bcn-overview">
       <p class="section-label">Overview</p>
       <h2 class="section-heading">What does the data say about who lives in Barcelona?</h2>
       <div class="section-body">
@@ -912,41 +791,153 @@ print(f'NO2  →  r = {r:.3f},  p-value = {p:.3f}')
       </div>
     </section>
 
-    <section class="section">
+    <!-- DATASET -->
+    <section class="section" id="bcn-dataset">
       <p class="section-label">Dataset</p>
-      <h2 class="section-heading">Five datasets from one source</h2>
+      <h2 class="section-heading">Six datasets from one source</h2>
       <div class="section-body">
         <p>All data comes from the <a href="https://www.kaggle.com/datasets/xvivancos/barcelona-data-sets" target="_blank">Barcelona Data Sets</a> collection on Kaggle, originally compiled by Xavier Vivancos from Barcelona's open data portal.</p>
       </div>
       <div class="dataset-grid">
         <div class="dataset-card">
           <div class="dataset-name">Population</div>
-          <div class="dataset-desc">By district, neighbourhood, age & gender · 2013–2017</div>
+          <div class="dataset-desc">By district, neighbourhood, age &amp; gender · 2013–2017</div>
         </div>
         <div class="dataset-card">
-          <div class="dataset-name">Immigration & Emigration</div>
+          <div class="dataset-name">Immigration &amp; Emigration</div>
           <div class="dataset-desc">By nationality and destination · 2015–2017</div>
         </div>
         <div class="dataset-card">
-          <div class="dataset-name">Births & Deaths</div>
-          <div class="dataset-desc">By district, age group & gender · 2015–2017</div>
+          <div class="dataset-name">Births &amp; Deaths</div>
+          <div class="dataset-desc">By district, age group &amp; gender · 2015–2017</div>
         </div>
         <div class="dataset-card">
           <div class="dataset-name">Life Expectancy</div>
-          <div class="dataset-desc">By district & gender · 2006–2014 rolling windows</div>
+          <div class="dataset-desc">By district &amp; gender · 2006–2014 rolling windows</div>
         </div>
         <div class="dataset-card">
           <div class="dataset-name">Unemployment</div>
-          <div class="dataset-desc">Registered unemployed by month & gender · 2013–2017</div>
+          <div class="dataset-desc">Registered unemployed by month &amp; gender · 2013–2017</div>
         </div>
         <div class="dataset-card">
           <div class="dataset-name">Names</div>
-          <div class="dataset-desc">Most frequent names by frequency · 1996–2017</div>
+          <div class="dataset-desc">Most frequent baby names by frequency · 1996–2017</div>
         </div>
       </div>
     </section>
 
-    <section class="section">
+    <!-- DATA CLEANING -->
+    <section class="section" id="bcn-cleaning">
+      <p class="section-label">Data Cleaning</p>
+      <h2 class="section-heading">Preparing each dataset for analysis</h2>
+      <div class="section-body">
+        <p>Each phase required its own set of cleaning steps — filtering years, handling missing values, sorting age groups numerically, and creating calculated columns for percentages.</p>
+      </div>
+
+      <button class="code-toggle" onclick="toggleCode('code-pop-clean')" aria-expanded="false" aria-controls="code-pop-clean">
+        <i class="code-arrow" id="arrow-pop-clean">▶</i> Phase 1 — Population cleaning &amp; gender split
+      </button>
+      <div class="code-wrap" id="code-pop-clean" hidden>
+        <pre># Filter to 2017 and aggregate by district and gender
+pop_2017 = df_population[df_population['Year'] == 2017]
+pop_by_gender = pop_2017.groupby(['District Name', 'Gender'])['Number'].sum().reset_index()
+pop_pivot = pop_by_gender.pivot(index='District Name', columns='Gender', values='Number')
+
+# Top 15 neighborhoods by population
+top_15_neigh = pop_2017.groupby('Neighborhood Name')['Number'].sum().reset_index()
+top_15_neigh = top_15_neigh.sort_values('Number', ascending=False).head(15)
+top_15_neigh = top_15_neigh.sort_values('Number', ascending=True)  # for horizontal bar</pre>
+      </div>
+
+      <button class="code-toggle" onclick="toggleCode('code-migration-clean')" aria-expanded="false" aria-controls="code-migration-clean">
+        <i class="code-arrow" id="arrow-migration-clean">▶</i> Phase 2 — Immigration &amp; emigration cleaning
+      </button>
+      <div class="code-wrap" id="code-migration-clean" hidden>
+        <pre># Top 15 immigrant nationalities in 2017
+immigrant_by_nationality_2017 = df_immigrants_by_nationality[
+    df_immigrants_by_nationality['Year'] == 2017
+].groupby('Nationality')['Number'].sum().reset_index()
+a = immigrant_by_nationality_2017.sort_values('Number', ascending=False).head(15)
+a = a.sort_values('Number', ascending=True)
+
+# Migration flow for Sankey diagram
+top15 = df_immigrants_emigrants_by_destination2.sort_values(
+    'weight', ascending=False
+).head(15)
+all_nodes = list(top15['from'].unique()) + list(top15['to'].unique())
+source = [all_nodes.index(src) for src in top15['from']]
+target = [all_nodes.index(dest) for dest in top15['to']]
+values = top15['weight'].tolist()</pre>
+      </div>
+
+      <button class="code-toggle" onclick="toggleCode('code-births-clean')" aria-expanded="false" aria-controls="code-births-clean">
+        <i class="code-arrow" id="arrow-births-clean">▶</i> Phase 3 — Births &amp; deaths merge, net natural growth
+      </button>
+      <div class="code-wrap" id="code-births-clean" hidden>
+        <pre># Deaths by age — sort age groups numerically using str.extract
+d = df_deaths[df_deaths['Year']==2017].groupby(['Age'])['Population'].sum().reset_index()
+d = d.rename(columns={'Population': 'Deaths'})
+d['Age_Start'] = d['Age'].str.extract(r'(\d+)').astype(int)
+d = d.sort_values('Age_Start', ascending=False)
+
+# Births vs deaths by district — merge and compute net growth
+births_district = df_births[df_births['Year']==2017].groupby(
+    'District Name')['Population'].sum().reset_index()
+births_district = births_district.rename(columns={'Population': 'Births'})
+deaths_district = e[['District Name', 'Deaths']]
+bd = births_district.merge(deaths_district, on='District Name')
+bd['Net'] = bd['Births'] - bd['Deaths']
+
+# Percentage split for stacked chart
+total_bd = bd['Births'] + bd['Deaths']
+bd['Births_%'] = (bd['Births'] / total_bd * 100).round(1)
+bd['Deaths_%'] = (bd['Deaths'] / total_bd * 100).round(1)</pre>
+      </div>
+
+      <button class="code-toggle" onclick="toggleCode('code-le-clean')" aria-expanded="false" aria-controls="code-le-clean">
+        <i class="code-arrow" id="arrow-le-clean">▶</i> Phase 4 — Life expectancy by gender over time
+      </button>
+      <div class="code-wrap" id="code-le-clean" hidden>
+        <pre># Average life expectancy by gender across rolling 5-year windows
+le_avg = df_life_expectancy.groupby('Gender')[
+    ['2006-2010','2007-2011','2008-2012','2009-2013','2010-2014']
+].mean()
+
+# Transpose for line chart — periods on x-axis, gender as series
+le_avg.T.plot(figsize=(10,6), marker='o', color=['hotpink', 'steelblue'])
+plt.title('Life Expectancy by Gender Over Time')
+plt.ylabel('Years')</pre>
+      </div>
+
+      <button class="code-toggle" onclick="toggleCode('code-unm-clean')" aria-expanded="false" aria-controls="code-unm-clean">
+        <i class="code-arrow" id="arrow-unm-clean">▶</i> Phase 5 — Unemployment &amp; names cleaning
+      </button>
+      <div class="code-wrap" id="code-unm-clean" hidden>
+        <pre># Monthly unemployment — filter, pivot, reindex by month order
+unm_2017 = df_unemployment[
+    (df_unemployment['Demand_occupation'] == 'Registered unemployed') &
+    (df_unemployment['Year'] == 2017)
+].groupby(['Month', 'Gender'])['Number'].sum().reset_index()
+pivot_unm_2017 = unm_2017.pivot(index='Month', columns='Gender', values='Number')
+pivot_unm_2017['Total'] = pivot_unm_2017['Female'] + pivot_unm_2017['Male']
+pivot_unm_2017['Female %'] = (pivot_unm_2017['Female'] / pivot_unm_2017['Total'] * 100).round(1)
+pivot_unm_2017['Male %'] = (pivot_unm_2017['Male'] / pivot_unm_2017['Total'] * 100).round(1)
+
+# Reindex to calendar order (not alphabetical)
+month_order = ['January','February','March','April','May','June',
+               'July','August','September','October','November','December']
+pivot_unm_2017 = pivot_unm_2017.reindex(month_order)
+
+# WordCloud for most frequent baby names
+from wordcloud import WordCloud
+names_freq = df_most_frequent_names.groupby('Name')['Frequency'].sum()
+wordcloud = WordCloud(width=800, height=400, background_color='white'
+    ).generate_from_frequencies(names_freq)</pre>
+      </div>
+    </section>
+
+    <!-- METHODOLOGY -->
+    <section class="section" id="bcn-methodology">
       <p class="section-label">Methodology</p>
       <h2 class="section-heading">Five phases of analysis</h2>
       <table class="phase-table">
@@ -960,12 +951,12 @@ print(f'NO2  →  r = {r:.3f},  p-value = {p:.3f}')
         <tbody>
           <tr>
             <td><span class="phase-badge">Phase 1</span></td>
-            <td>Population by district, neighbourhood, age & gender</td>
+            <td>Population by district, neighbourhood, age &amp; gender</td>
             <td>groupby, pivot, stacked bar charts</td>
           </tr>
           <tr>
             <td><span class="phase-badge">Phase 2</span></td>
-            <td>Immigration & emigration flows, top nationalities</td>
+            <td>Immigration &amp; emigration flows, top nationalities</td>
             <td>Sankey diagram (plotly), gradient bar charts</td>
           </tr>
           <tr>
@@ -980,56 +971,133 @@ print(f'NO2  →  r = {r:.3f},  p-value = {p:.3f}')
           </tr>
           <tr>
             <td><span class="phase-badge">Phase 5</span></td>
-            <td>Unemployment by month & gender · most frequent names</td>
+            <td>Unemployment by month &amp; gender · most frequent names</td>
             <td>reindex for month order, WordCloud</td>
           </tr>
         </tbody>
       </table>
+    </section>
 
-      <button class="code-toggle" onclick="toggleCode('code-sankey')" aria-expanded="false" aria-controls="code-sankey">
-        <i class="code-arrow" id="arrow-sankey">▶</i> View Python — Sankey migration diagram
-      </button>
-      <div class="code-wrap" id="code-sankey" hidden>
-        <pre>import plotly.graph_objects as go
-import plotly.io as pio
-
-top15 = df_flows.sort_values('weight', ascending=False).head(15)
-all_nodes = list(top15['from'].unique()) + list(top15['to'].unique())
-source = [all_nodes.index(src) for src in top15['from']]
-target = [all_nodes.index(dest) for dest in top15['to']]
-values = top15['weight'].tolist()
-
-fig = go.Figure(data=[go.Sankey(
-    node=dict(label=all_nodes, pad=15, thickness=20),
-    link=dict(source=source, target=target, value=values)
-)])
-fig.update_layout(title_text='Top 15 Migration Flows in Barcelona', font_size=12)
-pio.renderers.default = 'colab'
-fig.show()</pre>
+    <!-- VISUALIZATIONS -->
+    <section class="section" id="bcn-visualizations">
+      <p class="section-label">Visualizations</p>
+      <h2 class="section-heading">Charts from each phase</h2>
+      <div class="section-body">
+        <p>Ten charts produced across five phases of analysis. Each chart was coded from scratch using matplotlib and plotly, following the scaffolded learning method.</p>
       </div>
 
-      <button class="code-toggle" onclick="toggleCode('code-unemployment')" aria-expanded="false" aria-controls="code-unemployment">
-        <i class="code-arrow" id="arrow-unemployment">▶</i> View Python — Monthly unemployment chart
-      </button>
-      <div class="code-wrap" id="code-unemployment" hidden>
-        <pre>month_order = ['January','February','March','April','May','June',
-               'July','August','September','October','November','December']
-pivot_unm_2017 = pivot_unm_2017.reindex(month_order)
+      <div class="chart-gallery">
 
-ax = pivot_unm_2017[['Female', 'Male']].plot(
-    kind='barh', stacked=True, figsize=(10,8),
-    color=['hotpink', 'teal'], edgecolor='white'
-)
-for i, container in enumerate(ax.containers):
-    gender = ['Female %', 'Male %'][i]
-    labels = [f"{v:.1f}%" for v in pivot_unm_2017[gender]]
-    ax.bar_label(container, labels=labels, label_type='center', fontsize=8)
-plt.title('Registered Unemployment by Gender per Month (2017)')
-plt.xlabel('Population')</pre>
+        <!-- Phase 1 -->
+        <div class="chart-card">
+          <span class="chart-phase">Phase 1</span>
+          <div class="chart-title">Barcelona Population by Gender (2017)</div>
+          <div class="chart-desc">Stacked horizontal bar chart showing male vs female population across all 10 districts.</div>
+          <div class="chart-tech">
+            <span class="chart-chip">matplotlib · barh</span>
+            <span class="chart-chip">bar_label</span>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <span class="chart-phase">Phase 1</span>
+          <div class="chart-title">Top 15 Neighborhoods by Population (2017)</div>
+          <div class="chart-desc">Gradient-colored horizontal bar chart ranking the most populated neighborhoods using cm.Blues colormap.</div>
+          <div class="chart-tech">
+            <span class="chart-chip">cm.Blues</span>
+            <span class="chart-chip">np.linspace</span>
+          </div>
+        </div>
+
+        <!-- Phase 2 -->
+        <div class="chart-card">
+          <span class="chart-phase">Phase 2</span>
+          <div class="chart-title">Barcelona Migration Pyramid by Age (2017)</div>
+          <div class="chart-desc">Age-based pyramid showing immigration and emigration flows by age group, using diverging horizontal bars.</div>
+          <div class="chart-tech">
+            <span class="chart-chip">str.extract</span>
+            <span class="chart-chip">diverging bar</span>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <span class="chart-phase">Phase 2</span>
+          <div class="chart-title">Emigration from Barcelona by Destination</div>
+          <div class="chart-desc">Top emigration destinations from Barcelona, showing where residents move to when leaving the city.</div>
+          <div class="chart-tech">
+            <span class="chart-chip">groupby</span>
+            <span class="chart-chip">sort_values</span>
+          </div>
+        </div>
+
+        <div class="chart-card wide">
+          <span class="chart-phase">Phase 2</span>
+          <div class="chart-title">Top 15 Immigrant Nationalities in Barcelona (2017)</div>
+          <div class="chart-desc">Gradient bar chart of the 15 most common immigrant nationalities, dominated by Spain (other provinces), Italy, Pakistan, and China.</div>
+          <div class="chart-tech">
+            <span class="chart-chip">cm.Blues gradient</span>
+            <span class="chart-chip">bar_label edge</span>
+          </div>
+        </div>
+
+        <!-- Phase 3 -->
+        <div class="chart-card">
+          <span class="chart-phase">Phase 3</span>
+          <div class="chart-title">Births by Year</div>
+          <div class="chart-desc">Annual birth totals in Barcelona from 2015–2017, showing year-over-year changes.</div>
+          <div class="chart-tech">
+            <span class="chart-chip">groupby Year</span>
+            <span class="chart-chip">bar chart</span>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <span class="chart-phase">Phase 3</span>
+          <div class="chart-title">Deaths by Age (2017)</div>
+          <div class="chart-desc">Horizontal bar chart with age groups sorted numerically (not alphabetically) using str.extract(). Red gradient colormap.</div>
+          <div class="chart-tech">
+            <span class="chart-chip">cm.Reds</span>
+            <span class="chart-chip">str.extract · astype</span>
+          </div>
+        </div>
+
+        <div class="chart-card wide">
+          <span class="chart-phase">Phase 3</span>
+          <div class="chart-title">Deaths by District (2017) — Births vs Deaths Net Growth</div>
+          <div class="chart-desc">Diverging bar chart showing net natural growth per district. Most districts are negative — deaths exceed births. Eixample has the largest deficit.</div>
+          <div class="chart-tech">
+            <span class="chart-chip">merge</span>
+            <span class="chart-chip">diverging bar</span>
+            <span class="chart-chip">axvline</span>
+          </div>
+        </div>
+
+        <!-- Phase 5 -->
+        <div class="chart-card">
+          <span class="chart-phase">Phase 5</span>
+          <div class="chart-title">Registered Unemployment by Gender per Month (2017)</div>
+          <div class="chart-desc">Stacked horizontal bar chart with percentage labels for male/female split. Months reindexed to calendar order.</div>
+          <div class="chart-tech">
+            <span class="chart-chip">reindex</span>
+            <span class="chart-chip">stacked barh</span>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <span class="chart-phase">Phase 5</span>
+          <div class="chart-title">Most Frequent Baby Names in Barcelona (1996–2017)</div>
+          <div class="chart-desc">WordCloud visualization generated from name frequency data spanning two decades of Barcelona births.</div>
+          <div class="chart-tech">
+            <span class="chart-chip">WordCloud</span>
+            <span class="chart-chip">generate_from_frequencies</span>
+          </div>
+        </div>
+
       </div>
     </section>
 
-    <section class="section">
+    <!-- KEY FINDINGS -->
+    <section class="section" id="bcn-findings">
       <p class="section-label">Key Findings</p>
       <h2 class="section-heading">What the data reveals</h2>
       <div class="limitations-list">
@@ -1071,12 +1139,21 @@ plt.xlabel('Population')</pre>
       </div>
     </section>
 
-    <section class="section">
+    <!-- CONCLUSION + DISCLAIMER -->
+    <section class="section" id="bcn-conclusion">
       <p class="section-label">Conclusion</p>
       <h2 class="section-heading">What I built and learned</h2>
       <div class="section-body">
         <p>This project covers the full pandas EDA workflow — loading, cleaning, grouping, merging, pivoting, and visualising — applied to real demographic data. It was built from scratch using the scaffolded learning method: writing every transformation independently before checking against expected output.</p>
         <p>The most technically interesting problems were month ordering with reindex(), sorting age groups by numeric value with str.extract(), and building a Sankey diagram with plotly that wouldn't crash the browser with too many nodes.</p>
+      </div>
+
+      <div class="disclaimer">
+        <div class="disclaimer-title">Disclaimer</div>
+        <p>This notebook was created as a self-learning project, using a scaffolded learning approach — studying existing work, replicating the methodology, then improving it with my own ideas.</p>
+        <p>I was inspired by <a href="https://www.kaggle.com/datasets/xvivancos/barcelona-data-sets" target="_blank">Xavier Vivancos' original Barcelona analysis</a> published 7 years ago. I studied his approach and built my own version from scratch, using Python (pandas, matplotlib, plotly) with the assistance of Claude AI as my learning companion.</p>
+        <p>All analysis, code, and interpretations are my own work, developed through hands-on practice and iterative learning.</p>
+        <blockquote>"The best way to learn data analytics is to work with real data on topics you're curious about."</blockquote>
       </div>
 
       <div class="links-row">
@@ -1093,9 +1170,192 @@ plt.xlabel('Population')</pre>
 
   </div><!-- /proj-bcn -->
 
+
+  <!-- ============================================================ -->
+  <!-- PROJECT 2: AIR QUALITY -->
+  <!-- ============================================================ -->
+  <div class="project-view" id="proj-aq">
+
+    <header class="report-header">
+      <p class="report-tag">Data Analysis · Barcelona</p>
+      <h1 class="report-title">Does air quality affect life expectancy in Barcelona?</h1>
+      <p class="report-subtitle">A district-level correlation analysis using Kaggle datasets — cleaning and aggregating data in Python, then testing Pearson correlations with scipy.</p>
+      <div class="report-meta">
+        <div class="meta-item">
+          <span class="meta-label">Author</span>
+          <span class="meta-value">Putra Adyasa Jatnika</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Tools</span>
+          <span class="meta-value">Python · pandas · matplotlib · scipy</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Data source</span>
+          <span class="meta-value"><a href="https://www.kaggle.com/datasets/xvivancos/barcelona-data-sets" target="_blank">Kaggle — xvivancos</a></span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Code</span>
+          <span class="meta-value">
+            <a href="https://github.com/putraadyasa/barcelona-air-quality" target="_blank">GitHub</a>
+            &nbsp;·&nbsp;
+            <a href="https://www.kaggle.com/code/putraadyasa/v1-barcelona-air-quality-analysis" target="_blank">Kaggle</a>
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <section class="section" id="aq-overview">
+      <p class="section-label">Overview</p>
+      <h2 class="section-heading">The question</h2>
+      <div class="section-body">
+        <p>Air pollution is one of the leading environmental health risks in European cities. Barcelona, like many dense urban centres, has districts with measurable differences in pollutant levels. This project asks: do the districts with worse air quality also have lower life expectancy?</p>
+        <p>Using three pollutants — NO₂, O₃, and PM10 — measured across 10 Barcelona districts in November 2017, and life expectancy data from 2006–2014, I ran a Pearson correlation test to look for a statistical relationship.</p>
+      </div>
+    </section>
+
+    <section class="section" id="aq-dataset">
+      <p class="section-label">Dataset</p>
+      <h2 class="section-heading">Six datasets, cleaned and joined</h2>
+      <div class="section-body">
+        <p>All data comes from the <a href="https://www.kaggle.com/datasets/xvivancos/barcelona-data-sets" target="_blank">Barcelona Data Sets</a> collection on Kaggle.</p>
+      </div>
+      <div class="dataset-grid">
+        <div class="dataset-card">
+          <div class="dataset-name">Air Quality</div>
+          <div class="dataset-desc">NO₂, O₃, PM10 readings by station · November 2017</div>
+        </div>
+        <div class="dataset-card">
+          <div class="dataset-name">Life Expectancy</div>
+          <div class="dataset-desc">Average by district · 2006–2014 rolling windows</div>
+        </div>
+        <div class="dataset-card">
+          <div class="dataset-name">Population</div>
+          <div class="dataset-desc">District population totals · 2013–2017</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="aq-methodology">
+      <p class="section-label">Methodology</p>
+      <h2 class="section-heading">From raw data to correlation test</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-title">Clean each dataset in Python</div>
+          <div class="step-body">Handled missing values with dropna(), aggregated measurement stations by median, and normalised district names for joining across tables.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Aggregate pollutants per district</div>
+          <div class="step-body">Computed average NO₂, O₃, and PM10 concentration per district. Joined with life expectancy data on district name. This produced a table of 10 rows — one per Barcelona district.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Test in Python with scipy</div>
+          <div class="step-body">Ran scipy.stats.pearsonr() on each pollutant against average life expectancy. Generated scatter plots to visualise the relationship. Assessed statistical significance using p-value threshold of 0.05.</div>
+        </div>
+      </div>
+
+      <button class="code-toggle" onclick="toggleCode('code-aq-python')" aria-expanded="false" aria-controls="code-aq-python">
+        <i class="code-arrow" id="arrow-aq-python">▶</i> View Python — Pearson correlation
+      </button>
+      <div class="code-wrap" id="code-aq-python" hidden>
+        <pre>from scipy import stats
+import pandas as pd
+
+df = pd.read_csv('/kaggle/input/datasets/putraadyasa/barcelona-analysis/barcelona_NO2.csv')
+
+# Pearson correlation: NO2 vs life expectancy
+r, p = stats.pearsonr(df['avg_NO2'], df['life_expectancy'])
+
+print(f'NO2  →  r = {r:.3f},  p-value = {p:.3f}')
+# Output: NO2  →  r = -0.232,  p-value = 0.617</pre>
+      </div>
+    </section>
+
+    <section class="section" id="aq-findings">
+      <p class="section-label">Findings</p>
+      <h2 class="section-heading">No statistically significant correlation found</h2>
+      <div class="section-body">
+        <p>All three pollutants showed weak correlations and p-values well above the 0.05 significance threshold. The result is inconclusive — not a null result, but a data limitation result.</p>
+      </div>
+
+      <div class="findings-grid">
+        <div class="finding-cell">
+          <span class="finding-pollutant">NO₂ · ~28 µg/m³ avg</span>
+          <span class="finding-r negative">−0.232</span>
+          <span class="finding-pval">p = 0.617</span>
+          <span class="finding-sig">Not significant</span>
+        </div>
+        <div class="finding-cell">
+          <span class="finding-pollutant">O₃ · ~35 µg/m³ avg</span>
+          <span class="finding-r positive">+0.223</span>
+          <span class="finding-pval">p = 0.719</span>
+          <span class="finding-sig">Not significant</span>
+        </div>
+        <div class="finding-cell">
+          <span class="finding-pollutant">PM10 · ~22 µg/m³ avg</span>
+          <span class="finding-r negative">−0.171</span>
+          <span class="finding-pval">p = 0.783</span>
+          <span class="finding-sig">Not significant</span>
+        </div>
+      </div>
+
+      <div class="verdict-box">
+        <p>A p-value above 0.05 means we cannot rule out that the correlation happened by chance. With only 10 data points and a time mismatch between datasets, these results cannot confirm or deny a real relationship between air quality and life expectancy in Barcelona.</p>
+      </div>
+    </section>
+
+    <section class="section" id="aq-limitations">
+      <p class="section-label">Limitations</p>
+      <h2 class="section-heading">Why the result may not tell the full story</h2>
+      <div class="limitations-list">
+        <div class="limitation">
+          <span class="limitation-icon">⏱</span>
+          <div>
+            <div class="limitation-title">Time mismatch</div>
+            <div class="limitation-body">Air quality data is a single snapshot from November 2017. Life expectancy is an average from rolling 5-year windows between 2006 and 2014. These time periods do not overlap.</div>
+          </div>
+        </div>
+        <div class="limitation">
+          <span class="limitation-icon">📏</span>
+          <div>
+            <div class="limitation-title">Small sample size</div>
+            <div class="limitation-body">The analysis uses 10 data points — one per district. Statistical tests need larger samples to produce reliable results. 10 points is insufficient for Pearson correlation to be meaningful.</div>
+          </div>
+        </div>
+        <div class="limitation">
+          <span class="limitation-icon">🔍</span>
+          <div>
+            <div class="limitation-title">Missing confounders</div>
+            <div class="limitation-body">Life expectancy is strongly influenced by income level, healthcare access, lifestyle, and housing quality — none of which are in this dataset. Air quality alone explains only a fraction of the variation.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="aq-conclusion">
+      <p class="section-label">Conclusion</p>
+      <h2 class="section-heading">What I learned</h2>
+      <div class="section-body">
+        <p>This project demonstrates a complete analytics workflow: raw open data → Python cleaning → statistical testing → honest reporting of results. The null result is a legitimate outcome — real analysis often produces inconclusive findings, and knowing why the data falls short is part of the work.</p>
+        <p>A stronger analysis would require multi-year air quality data matched to the same time period as the health data, neighborhood-level granularity, and additional socioeconomic variables. That is the next version of this project.</p>
+      </div>
+
+      <div class="links-row">
+        <a class="link-pill" href="https://github.com/putraadyasa/barcelona-air-quality" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub repo
+        </a>
+        <a class="link-pill" href="https://www.kaggle.com/code/putraadyasa/v1-barcelona-air-quality-analysis" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M16 0C7.163 0 0 7.163 0 16s7.163 16 16 16 16-7.163 16-16S24.837 0 16 0zm5.992 23.016l-5.04-5.816-1.584 1.68v4.136H12V8.984h3.368v6.216l6.24-6.216h4.2l-6.36 6.296 6.552 7.736h-4.008z"/></svg>
+          Kaggle notebook
+        </a>
+      </div>
+    </section>
+
+  </div><!-- /proj-aq -->
+
   <footer class="report-footer">
-    <span class="footer-name">Putra Adyasa · <a href="https://linkedin.com/in/putraadyasa" target="_blank" style="color:var(--accent);text-decoration:none;">linkedin.com/in/putraadyasa</a></span>
-    <span class="footer-note">Barcelona Open Data</span>
+    <span class="footer-name">Putra Adyasa Jatnika · <a href="https://linkedin.com/in/putraadyasa" target="_blank" style="color:var(--accent);text-decoration:none;">linkedin.com/in/putraadyasa</a></span>
+    <span class="footer-note">Barcelona Data Projects</span>
   </footer>
 
 </div>
@@ -1112,10 +1372,43 @@ plt.xlabel('Population')</pre>
     if (btn) btn.setAttribute('aria-expanded', String(isHidden));
   }
 
+  // TOC nav links per project
+  const tocLinks = {
+    bcn: [
+      {href: '#bcn-overview', label: 'Overview'},
+      {href: '#bcn-dataset', label: 'Dataset'},
+      {href: '#bcn-cleaning', label: 'Cleaning'},
+      {href: '#bcn-methodology', label: 'Methodology'},
+      {href: '#bcn-visualizations', label: 'Visualizations'},
+      {href: '#bcn-findings', label: 'Findings'},
+      {href: '#bcn-conclusion', label: 'Conclusion'}
+    ],
+    aq: [
+      {href: '#aq-overview', label: 'Overview'},
+      {href: '#aq-dataset', label: 'Dataset'},
+      {href: '#aq-methodology', label: 'Methodology'},
+      {href: '#aq-findings', label: 'Findings'},
+      {href: '#aq-limitations', label: 'Limitations'},
+      {href: '#aq-conclusion', label: 'Conclusion'}
+    ]
+  };
+
+  function updateToc(projectId) {
+    const toc = document.getElementById('main-toc');
+    toc.innerHTML = tocLinks[projectId].map(
+      l => '<a href="' + l.href + '">' + l.label + '</a>'
+    ).join('');
+  }
+
   function switchProject(id) {
     document.querySelectorAll('.project-view').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.proj-btn').forEach(el => el.classList.remove('active'));
     document.getElementById('proj-' + id).classList.add('active');
     event.currentTarget.classList.add('active');
+    updateToc(id);
+    window.scrollTo({top: 0, behavior: 'smooth'});
   }
+
+  // Init TOC for default project
+  updateToc('bcn');
 </script>
