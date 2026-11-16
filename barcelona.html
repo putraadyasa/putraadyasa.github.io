@@ -1,6 +1,7 @@
 <title>Barcelona Data Projects</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500&display=swap">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-chart-sankey@0.12.1/dist/chartjs-chart-sankey.min.js"></script>
 
 <style>
   :root {
@@ -578,7 +579,6 @@
   .chart-canvas-wrap {
     position: relative;
     width: 100%;
-    max-height: 420px;
   }
 
   .chart-row {
@@ -991,61 +991,59 @@ wordcloud = WordCloud(width=800, height=400, background_color='white'
       <!-- PHASE 1: Population -->
       <div class="chart-container">
         <p class="chart-container-phase">Phase 1 · Population</p>
-        <div class="chart-container-title">Barcelona Population by Gender (2017)</div>
-        <div class="chart-canvas-wrap"><canvas id="chartPopGender"></canvas></div>
+        <div class="chart-container-title">Population by District (2017)</div>
+        <div class="chart-canvas-wrap" style="height:380px;"><canvas id="chartPopGender"></canvas></div>
       </div>
 
       <div class="chart-container">
         <p class="chart-container-phase">Phase 1 · Population</p>
         <div class="chart-container-title">Top 15 Neighborhoods by Population (2017)</div>
-        <div class="chart-canvas-wrap"><canvas id="chartTop15Neigh"></canvas></div>
+        <div class="chart-canvas-wrap" style="height:480px;"><canvas id="chartTop15Neigh"></canvas></div>
       </div>
 
       <!-- PHASE 2: Migration -->
       <div class="chart-container">
         <p class="chart-container-phase">Phase 2 · Migration</p>
         <div class="chart-container-title">Top 15 Immigrant Nationalities in Barcelona (2017)</div>
-        <div class="chart-canvas-wrap"><canvas id="chartImmigrants"></canvas></div>
+        <div class="chart-canvas-wrap" style="height:480px;"><canvas id="chartImmigrants"></canvas></div>
       </div>
 
-      <div class="chart-row">
-        <div class="chart-container">
-          <p class="chart-container-phase">Phase 2 · Migration</p>
-          <div class="chart-container-title">Immigration vs Emigration by Age (2017)</div>
-          <div class="chart-canvas-wrap"><canvas id="chartMigrationAge"></canvas></div>
-        </div>
-        <div class="chart-container">
-          <p class="chart-container-phase">Phase 2 · Migration</p>
-          <div class="chart-container-title">Emigration from Barcelona by Destination</div>
-          <div class="chart-canvas-wrap"><canvas id="chartEmigration"></canvas></div>
-        </div>
+      <div class="chart-container">
+        <p class="chart-container-phase">Phase 2 · Migration</p>
+        <div class="chart-container-title">Immigration vs Emigration by Age (2017)</div>
+        <div class="chart-canvas-wrap" style="height:560px;"><canvas id="chartMigrationAge"></canvas></div>
+      </div>
+
+      <div class="chart-container">
+        <p class="chart-container-phase">Phase 2 · Migration</p>
+        <div class="chart-container-title">Emigration from Barcelona by Destination</div>
+        <div class="chart-canvas-wrap" style="height:600px;"><canvas id="chartEmigration"></canvas></div>
       </div>
 
       <!-- PHASE 3: Births & Deaths -->
-      <div class="chart-row">
-        <div class="chart-container">
-          <p class="chart-container-phase">Phase 3 · Births &amp; Deaths</p>
-          <div class="chart-container-title">Births by Year</div>
-          <div class="chart-canvas-wrap"><canvas id="chartBirthsYear"></canvas></div>
-        </div>
-        <div class="chart-container">
-          <p class="chart-container-phase">Phase 3 · Births &amp; Deaths</p>
-          <div class="chart-container-title">Deaths by Age (2017)</div>
-          <div class="chart-canvas-wrap"><canvas id="chartDeathsAge"></canvas></div>
-        </div>
+      <div class="chart-container">
+        <p class="chart-container-phase">Phase 3 · Births &amp; Deaths</p>
+        <div class="chart-container-title">Births by Year (2013–2017)</div>
+        <div class="chart-canvas-wrap"><canvas id="chartBirthsYear"></canvas></div>
       </div>
 
       <div class="chart-container">
         <p class="chart-container-phase">Phase 3 · Births &amp; Deaths</p>
-        <div class="chart-container-title">Net Natural Growth by District (2017) — Births minus Deaths</div>
-        <div class="chart-canvas-wrap"><canvas id="chartNetGrowth"></canvas></div>
+        <div class="chart-container-title">Deaths by Age (2017)</div>
+        <div class="chart-canvas-wrap" style="height:560px;"><canvas id="chartDeathsAge"></canvas></div>
+      </div>
+
+      <div class="chart-container">
+        <p class="chart-container-phase">Phase 3 · Births &amp; Deaths</p>
+        <div class="chart-container-title">Births vs Deaths by District (2017)</div>
+        <div class="chart-canvas-wrap" style="height:380px;"><canvas id="chartNetGrowth"></canvas></div>
       </div>
 
       <!-- PHASE 5: Unemployment & Names -->
       <div class="chart-container">
         <p class="chart-container-phase">Phase 5 · Unemployment</p>
         <div class="chart-container-title">Registered Unemployment by Gender per Month (2017)</div>
-        <div class="chart-canvas-wrap"><canvas id="chartUnemployment"></canvas></div>
+        <div class="chart-canvas-wrap" style="height:420px;"><canvas id="chartUnemployment"></canvas></div>
       </div>
 
       <div class="chart-container">
@@ -1418,19 +1416,20 @@ print(f'NO2  →  r = {r:.3f},  p-value = {p:.3f}')
     return colors;
   }
 
-  // ── CHART 1: Population by Gender ──
-  const districts = ['Ciutat Vella','Eixample','Sants-Montjuïc','Les Corts','Sarrià-St Gervasi','Gràcia','Horta-Guinardó','Nou Barris','Sant Andreu','Sant Martí'];
+  // ── CHART 1: Population by District ──
+  const districts = ['Eixample','Sant Martí','Sants-Montjuïc','Horta-Guinardó','Nou Barris','Sarrià-Sant Gervasi','Sant Andreu','Gràcia','Ciutat Vella','Les Corts'];
   new Chart(document.getElementById('chartPopGender'), {
     type: 'bar',
     data: {
       labels: districts,
       datasets: [
-        { label: 'Female', data: [52413, 140126, 95482, 43876, 79214, 63908, 88122, 85698, 76234, 120849], backgroundColor: pink },
-        { label: 'Male', data: [49587, 125674, 87118, 38124, 69786, 57892, 79878, 79302, 71766, 114151], backgroundColor: teal }
+        { label: 'Female', data: [142554, 122263, 95006, 89485, 88348, 80877, 77571, 65793, 48467, 43820], backgroundColor: pink },
+        { label: 'Male', data: [123862, 113250, 86904, 79266, 78231, 68402, 70023, 55554, 52920, 38213], backgroundColor: teal }
       ]
     },
     options: {
       indexAxis: 'y',
+      maintainAspectRatio: false,
       plugins: { legend: { position: 'top' } },
       scales: {
         x: { stacked: true, grid: { display: false }, ticks: { callback: v => (v/1000)+'k' } },
@@ -1440,32 +1439,33 @@ print(f'NO2  →  r = {r:.3f},  p-value = {p:.3f}')
   });
 
   // ── CHART 2: Top 15 Neighborhoods ──
-  const neighLabels = ['la Nova Esquerra de l\'Eixample','l\'Antiga Esquerra de l\'Eixample','Sant Gervasi - Galvany','la Vila de Gràcia','el Camp d\'en Grassot','la Sagrada Família','el Raval','Sant Andreu','la Dreta de l\'Eixample','el Poble Sec','Sant Martí de Provençals','el Guinardó','Sants','el Camp de l\'Arpa','la Barceloneta'];
-  const neighData = [58056, 42612, 40105, 38946, 35218, 52529, 47556, 36452, 44012, 40889, 34280, 36127, 42013, 38517, 15543];
-  const neighSorted = neighLabels.map((l,i)=>({l,v:neighData[i]})).sort((a,b)=>a.v-b.v);
+  const neighLabels = ['el Camp d en Grassot i Gràcia Nova','el Guinardó','Sant Antoni','el Camp de l Arpa del Clot','el Poble Sec','Sants','el Raval','l Antiga Esquerra de l Eixample','la Dreta de l Eixample','les Corts','Sant Gervasi - Galvany','la Vila de Gràcia','la Sagrada Família','Sant Andreu','la Nova Esquerra de l Eixample'];
+  const neighFemale = [18665,19449,20180,20322,20406,21795,21806,22652,23640,24645,26179,27627,27952,30213,31168];
+  const neighMale =   [15664,17018,18165,17846,19822,19332,25802,19632,20412,21364,21487,23035,23587,26970,27012];
+  const neighFPct = neighFemale.map((f,i) => +(f/(f+neighMale[i])*100).toFixed(1));
+  const neighMPct = neighMale.map((m,i) => +(m/(neighFemale[i]+m)*100).toFixed(1));
   new Chart(document.getElementById('chartTop15Neigh'), {
     type: 'bar',
     data: {
-      labels: neighSorted.map(d=>d.l),
-      datasets: [{
-        data: neighSorted.map(d=>d.v),
-        backgroundColor: blueGradient(neighSorted.length),
-        borderRadius: 3
-      }]
+      labels: neighLabels,
+      datasets: [
+        { label: 'Female', data: neighFPct, backgroundColor: pink },
+        { label: 'Male', data: neighMPct, backgroundColor: teal }
+      ]
     },
     options: {
       indexAxis: 'y',
-      plugins: { legend: { display: false } },
+      maintainAspectRatio: false,
+      plugins: { legend: { position: 'top' } },
       scales: {
-        x: { grid: { display: false }, ticks: { callback: v => (v/1000)+'k' } },
-        y: { grid: { display: false } }
+        x: { stacked: true, max: 100, grid: { display: false }, ticks: { callback: v => v+'%' } },
+        y: { stacked: true, grid: { display: false } }
       }
     }
   });
-
   // ── CHART 3: Top 15 Immigrant Nationalities ──
-  const immLabels = ['Honduras','Ecuador','Colombia','Bolivia','Morocco','France','Venezuela','Romania','Philippines','United Kingdom','China','Pakistan','Italy','Rest of Spain','Barcelona (other)'];
-  const immData = [1823, 2145, 2987, 2356, 3156, 3421, 3876, 3012, 2789, 2654, 4523, 5234, 7823, 9456, 12345];
+  const immLabels = ['Spain','Italy','China','Colombia','Venezuela','Pakistan','Honduras','France','Peru','Morocco','Argentina','Brasil','United States','United Kingdom','India'];
+  const immData = [35354, 6309, 3299, 3255, 3021, 2967, 2767, 2670, 2473, 1931, 1885, 1757, 1507, 1459, 1441];
   const immSorted = immLabels.map((l,i)=>({l,v:immData[i]})).sort((a,b)=>a.v-b.v);
   new Chart(document.getElementById('chartImmigrants'), {
     type: 'bar',
@@ -1479,6 +1479,7 @@ print(f'NO2  →  r = {r:.3f},  p-value = {p:.3f}')
     },
     options: {
       indexAxis: 'y',
+      maintainAspectRatio: false,
       plugins: { legend: { display: false } },
       scales: {
         x: { grid: { display: false }, ticks: { callback: v => v.toLocaleString() } },
@@ -1488,18 +1489,19 @@ print(f'NO2  →  r = {r:.3f},  p-value = {p:.3f}')
   });
 
   // ── CHART 4: Migration Pyramid by Age ──
-  const ageGroups = ['0-4','5-9','10-14','15-19','20-24','25-29','30-34','35-39','40-44','45-49','50-54','55-59','60-64','65+'];
+  const ageGroups = ['0-4','5-9','10-14','15-19','20-24','25-29','30-34','35-39','40-44','45-49','50-54','55-59','60-64','65-69','70-74','75-79','80-84','85-89','90-94','95-99','>=100'];
   new Chart(document.getElementById('chartMigrationAge'), {
     type: 'bar',
     data: {
       labels: ageGroups,
       datasets: [
-        { label: 'Immigration', data: [2100,1450,1100,2800,8200,12500,9800,6200,4100,2800,2100,1600,1200,1800], backgroundColor: 'rgba(43,158,143,0.75)' },
-        { label: 'Emigration', data: [-1800,-1200,-950,-2200,-5600,-8900,-7200,-4800,-3500,-2400,-1800,-1400,-1050,-1600], backgroundColor: 'rgba(232,102,138,0.75)' }
+        { label: 'Immigration', data: [3868,2684,2630,4545,12911,21319,15602,10265,6846,4565,3516,2454,1948,1424,939,596,544,393,219,55,4], backgroundColor: 'rgba(43,158,143,0.75)' },
+        { label: 'Emigration', data: [-3111,-1845,-1480,-1710,-3422,-6619,-7757,-6839,-5041,-3314,-2619,-1898,-1648,-1494,-1072,-702,-761,-756,-424,-131,-9], backgroundColor: 'rgba(232,102,138,0.75)' }
       ]
     },
     options: {
       indexAxis: 'y',
+      maintainAspectRatio: false,
       plugins: { legend: { position: 'top' } },
       scales: {
         x: { stacked: true, grid: { display: false }, ticks: { callback: v => Math.abs(v).toLocaleString() } },
@@ -1508,142 +1510,349 @@ print(f'NO2  →  r = {r:.3f},  p-value = {p:.3f}')
     }
   });
 
-  // ── CHART 5: Emigration by Destination ──
-  const emLabels = ['Americas','Africa','Asia','Rest of Europe','Rest of Spain','Catalonia (other)'];
-  const emData = [8200,3100,4500,12800,18500,9600];
-  const emSorted = emLabels.map((l,i)=>({l,v:emData[i]})).sort((a,b)=>a.v-b.v);
-  new Chart(document.getElementById('chartEmigration'), {
-    type: 'bar',
-    data: {
-      labels: emSorted.map(d=>d.l),
-      datasets: [{
-        data: emSorted.map(d=>d.v),
-        backgroundColor: 'rgba(232,102,138,0.7)',
-        borderRadius: 3
-      }]
-    },
-    options: {
-      indexAxis: 'y',
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { grid: { display: false }, ticks: { callback: v => v.toLocaleString() } },
-        y: { grid: { display: false } }
-      }
-    }
-  });
+// ── CHART 5: Emigration from Barcelona — Sankey Diagram ──
+const emigrationColors = {
+  'Barcelona':            '#E8668A',
+  'Catalonia':            '#2B9E8F',
+  'Abroad':               '#4A89D4',
+  'Community of Madrid':  '#E8A838',
+  'Valencian Community':  '#7B68B8',
+  'Andalusia':            '#D45B5B',
+  'Balearic Islands':     '#3AAFA9',
+  'Galicia':              '#6BAA5E',
+  'Canary Islands':       '#E07B4A',
+  'Aragon':               '#5B8FD4',
+  'Castile and León':     '#9C6B4A',
+  'Basque Country':       '#8BC34A',
+  'Castilla-La Mancha':   '#FF8A65',
+  'Region of Murcia':     '#7986CB',
+  'Asturias':             '#4DB6AC',
+  'Extremadura':          '#F06292',
+  'Navarre':              '#AED581',
+  'Cantabria':            '#4DD0E1',
+  'La Rioja':             '#BA68C8',
+  'Melilla':              '#90A4AE',
+  'Ceuta':                '#A1887F'
+};
 
-  // ── CHART 6: Births by Year ──
-  new Chart(document.getElementById('chartBirthsYear'), {
-    type: 'bar',
-    data: {
-      labels: ['2015','2016','2017'],
-      datasets: [{
-        label: 'Births',
-        data: [14281, 13956, 13634],
-        backgroundColor: ['rgba(43,158,143,0.65)','rgba(43,158,143,0.8)','rgba(43,158,143,0.95)'],
-        borderRadius: 4
-      }]
-    },
-    options: {
-      plugins: { legend: { display: false } },
-      scales: {
-        y: { beginAtZero: false, min: 13000, grid: { display: false } },
-        x: { grid: { display: false } }
-      }
-    }
-  });
-
-  // ── CHART 7: Deaths by Age ──
-  const deathAges = ['0-4','5-14','15-24','25-34','35-44','45-54','55-64','65-74','75-84','85+'];
-  const deathData = [52, 18, 68, 142, 385, 948, 1623, 2845, 4521, 5234];
-  new Chart(document.getElementById('chartDeathsAge'), {
-    type: 'bar',
-    data: {
-      labels: deathAges,
-      datasets: [{
-        data: deathData,
-        backgroundColor: redGradient(deathAges.length),
-        borderRadius: 3
-      }]
-    },
-    options: {
-      indexAxis: 'y',
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { grid: { display: false }, ticks: { callback: v => v.toLocaleString() } },
-        y: { grid: { display: false } }
-      }
-    }
-  });
-
-  // ── CHART 8: Net Natural Growth by District ──
-  const netDistricts = ['Eixample','Sarrià-St Gervasi','Les Corts','Gràcia','Horta-Guinardó','Ciutat Vella','Nou Barris','Sant Andreu','Sant Martí','Sants-Montjuïc'];
-  const netData = [-1823, -856, -534, -423, -312, -189, -156, 34, 178, 89];
-  const netSorted = netDistricts.map((l,i)=>({l,v:netData[i]})).sort((a,b)=>a.v-b.v);
-  new Chart(document.getElementById('chartNetGrowth'), {
-    type: 'bar',
-    data: {
-      labels: netSorted.map(d=>d.l),
-      datasets: [{
-        data: netSorted.map(d=>d.v),
-        backgroundColor: netSorted.map(d => d.v < 0 ? 'rgba(232,102,138,0.75)' : 'rgba(43,158,143,0.75)'),
-        borderRadius: 3
-      }]
-    },
-    options: {
-      indexAxis: 'y',
-      plugins: { legend: { display: false },
-        annotation: { annotations: { zero: { type: 'line', xMin: 0, xMax: 0, borderColor: isDark ? '#8A9BB5' : '#192233', borderWidth: 1 } } }
+new Chart(document.getElementById('chartEmigration'), {
+  type: 'sankey',
+  data: {
+    datasets: [{
+      data: [
+        { from: 'Barcelona', to: 'Catalonia', flow: 35036 },
+        { from: 'Barcelona', to: 'Abroad', flow: 5485 },
+        { from: 'Barcelona', to: 'Community of Madrid', flow: 2647 },
+        { from: 'Barcelona', to: 'Valencian Community', flow: 1711 },
+        { from: 'Barcelona', to: 'Andalusia', flow: 1596 },
+        { from: 'Barcelona', to: 'Balearic Islands', flow: 1428 },
+        { from: 'Barcelona', to: 'Galicia', flow: 795 },
+        { from: 'Barcelona', to: 'Canary Islands', flow: 789 },
+        { from: 'Barcelona', to: 'Aragon', flow: 745 },
+        { from: 'Barcelona', to: 'Castile and León', flow: 517 },
+        { from: 'Barcelona', to: 'Basque Country', flow: 475 },
+        { from: 'Barcelona', to: 'Castilla-La Mancha', flow: 347 },
+        { from: 'Barcelona', to: 'Region of Murcia', flow: 243 },
+        { from: 'Barcelona', to: 'Asturias', flow: 204 },
+        { from: 'Barcelona', to: 'Extremadura', flow: 201 },
+        { from: 'Barcelona', to: 'Navarre', flow: 186 },
+        { from: 'Barcelona', to: 'Cantabria', flow: 132 },
+        { from: 'Barcelona', to: 'La Rioja', flow: 72 },
+        { from: 'Barcelona', to: 'Melilla', flow: 27 },
+        { from: 'Barcelona', to: 'Ceuta', flow: 12 }
+      ],
+      colorFrom: (c) => emigrationColors[c.dataset.data[c.dataIndex].from] || '#E8668A',
+      colorTo: (c) => emigrationColors[c.dataset.data[c.dataIndex].to] || '#2B9E8F',
+      colorMode: 'gradient',
+      labels: {
+        'Barcelona': 'Barcelona',
+        'Catalonia': 'Catalonia  (35,036)',
+        'Abroad': 'Abroad  (5,485)',
+        'Community of Madrid': 'Community of Madrid  (2,647)',
+        'Valencian Community': 'Valencian Community  (1,711)',
+        'Andalusia': 'Andalusia  (1,596)',
+        'Balearic Islands': 'Balearic Islands  (1,428)',
+        'Galicia': 'Galicia  (795)',
+        'Canary Islands': 'Canary Islands  (789)',
+        'Aragon': 'Aragon  (745)',
+        'Castile and León': 'Castile and León  (517)',
+        'Basque Country': 'Basque Country  (475)',
+        'Castilla-La Mancha': 'Castilla-La Mancha  (347)',
+        'Region of Murcia': 'Region of Murcia  (243)',
+        'Asturias': 'Asturias  (204)',
+        'Extremadura': 'Extremadura  (201)',
+        'Navarre': 'Navarre  (186)',
+        'Cantabria': 'Cantabria  (132)',
+        'La Rioja': 'La Rioja  (72)',
+        'Melilla': 'Melilla  (27)',
+        'Ceuta': 'Ceuta  (12)'
       },
-      scales: {
-        x: { grid: { display: false } },
-        y: { grid: { display: false } }
+      nodeWidth: 24,
+      borderWidth: 0
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    color: isDark ? '#E8EEF8' : '#192233',
+    font: { size: 12, weight: '500', family: "'DM Sans', system-ui, sans-serif" },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label(ctx) {
+            const item = ctx.dataset.data[ctx.dataIndex];
+            const pct = ((item.flow / 52628) * 100).toFixed(1);
+            return `${item.from} → ${item.to}: ${item.flow.toLocaleString()} (${pct}%)`;
+          }
+        }
       }
     }
-  });
+  }
+});
 
-  // ── CHART 9: Unemployment by Gender per Month ──
-  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  new Chart(document.getElementById('chartUnemployment'), {
-    type: 'bar',
-    data: {
-      labels: months,
-      datasets: [
-        { label: 'Female', data: [44500,44200,43100,42000,40800,39200,38900,39400,40100,40800,41500,42800], backgroundColor: pink },
-        { label: 'Male', data: [38200,37800,36900,35800,34600,33200,32900,33400,34100,34800,35500,36800], backgroundColor: teal }
-      ]
+  // ── CHART 6: Births by Year (percentage Female vs Male, from notebook pivot_b_pct) ──
+new Chart(document.getElementById('chartBirthsYear'), {
+  type: 'bar',
+  data: {
+    labels: ['2013','2014','2015','2016','2017'],
+    datasets: [
+      {
+        label: 'Female',
+        data: [48.53, 48.29, 48.46, 49.16, 48.41],
+        backgroundColor: 'rgba(232,102,138,0.85)'
+      },
+      {
+        label: 'Male',
+        data: [51.47, 51.71, 51.54, 50.84, 51.59],
+        backgroundColor: 'rgba(43,158,143,0.85)'
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'top' },
+      tooltip: {
+        callbacks: {
+          label(ctx) {
+            return `${ctx.dataset.label}: ${ctx.raw.toFixed(2)}%`;
+          }
+        }
+      }
     },
-    options: {
-      plugins: { legend: { position: 'top' } },
-      scales: {
-        x: { stacked: true, grid: { display: false } },
-        y: { stacked: true, grid: { display: false }, ticks: { callback: v => (v/1000)+'k' } }
+    scales: {
+      x: { stacked: true, grid: { display: false } },
+      y: {
+        stacked: true,
+        min: 0,
+        max: 100,
+        grid: { display: false },
+        ticks: { callback: v => v + '%' },
+        title: { display: true, text: 'Percentage (%)' }
       }
     }
-  });
+  }
+});
 
-  // ── WORDCLOUD ──
-  const names = [
-    {n:'Maria',s:42},{n:'Marc',s:36},{n:'David',s:34},{n:'Laura',s:30},
-    {n:'Daniel',s:28},{n:'Anna',s:27},{n:'Jordi',s:26},{n:'Paula',s:24},
-    {n:'Carlos',s:23},{n:'Andrea',s:22},{n:'Alex',s:21},{n:'Sara',s:20},
-    {n:'Joan',s:19},{n:'Marta',s:18},{n:'Julia',s:17},{n:'Pol',s:16},
-    {n:'Laia',s:15},{n:'Martí',s:14},{n:'Arnau',s:28},{n:'Jan',s:22},
-    {n:'Núria',s:17},{n:'Carla',s:16},{n:'Pau',s:25},{n:'Berta',s:13},
-    {n:'Adrià',s:15},{n:'Guillem',s:14},{n:'Aina',s:18},{n:'Mireia',s:12},
-    {n:'Clara',s:13},{n:'Gerard',s:16},{n:'Oriol',s:17},{n:'Marina',s:15},
-    {n:'Roger',s:11},{n:'Elena',s:12},{n:'Albert',s:14},{n:'Irene',s:11},
-    {n:'Xavier',s:10},{n:'Nil',s:13},{n:'Hugo',s:15},{n:'Lucas',s:12}
-  ];
-  const wc = document.getElementById('wordcloud');
-  const hues = [210, 220, 195, 230, 200, 215, 240, 205];
-  names.forEach((item, i) => {
-    const span = document.createElement('span');
-    span.textContent = item.n;
-    span.style.fontSize = (item.s * 0.55 + 6) + 'px';
-    const h = hues[i % hues.length];
-    const l = isDark ? (45 + Math.random()*20) : (30 + Math.random()*20);
-    span.style.color = 'hsl(' + h + ', 55%, ' + l + '%)';
-    wc.appendChild(span);
-  });
+  // ── CHART 7: Deaths by Age 2017 (exact data from notebook) ──
+const deathAges = ['0-4','5-9','10-14','15-19','20-24','25-29','30-34','35-39','40-44','45-49','50-54','55-59','60-64','65-69','70-74','75-79','80-84','85-89','90-94','95-99','>=100'];
+const deathData = [23, 6, 7, 10, 12, 17, 24, 52, 99, 154, 284, 422, 586, 803, 1082, 1389, 2534, 3424, 3012, 1352, 272];
+new Chart(document.getElementById('chartDeathsAge'), {
+  type: 'bar',
+  data: {
+    labels: deathAges,
+    datasets: [{
+      label: 'Deaths',
+      data: deathData,
+      backgroundColor: deathData.map((v, i) => {
+        const t = i / (deathData.length - 1);
+        const r = Math.round(180 + 75 * t);
+        const g = Math.round(30 * (1 - t));
+        const b = Math.round(30 * (1 - t));
+        return `rgba(${r},${g},${b},0.85)`;
+      }),
+      borderRadius: 3
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top' },
+      tooltip: {
+        callbacks: {
+          label(ctx) {
+            return `Deaths: ${ctx.raw.toLocaleString()}`;
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        grid: { display: false },
+        ticks: { callback: v => v.toLocaleString() },
+        title: { display: true, text: 'Deaths' }
+      },
+      y: {
+        grid: { display: false },
+        title: { display: true, text: 'Age' }
+      }
+    }
+  }
+});
+
+  // ── CHART 8: Births vs Deaths by District 2017 (percentage, from notebook) ──
+const bdDistricts = ['Ciutat Vella','Eixample','Gràcia','Horta-Guinardó','Les Corts','Nou Barris','Sant Andreu','Sant Martí','Sants-Montjuïc','Sarrià-Sant Gervasi'];
+const birthsPct =  [52.3, 43.0, 47.3, 42.4, 45.7, 45.8, 48.8, 49.6, 45.8, 48.3];
+const deathsPct =  [47.7, 57.0, 52.7, 57.6, 54.3, 54.2, 51.2, 50.4, 54.2, 51.7];
+
+// Sort by Births % descending
+const bdSorted = bdDistricts.map((l,i) => ({l, b: birthsPct[i], d: deathsPct[i]}))
+  .sort((a,b) => b.b - a.b);
+
+new Chart(document.getElementById('chartNetGrowth'), {
+  type: 'bar',
+  data: {
+    labels: bdSorted.map(d => d.l),
+    datasets: [
+      {
+        label: 'Births %',
+        data: bdSorted.map(d => d.b),
+        backgroundColor: 'rgba(43,158,143,0.85)'
+      },
+      {
+        label: 'Deaths %',
+        data: bdSorted.map(d => d.d),
+        backgroundColor: 'rgba(232,102,138,0.75)'
+      }
+    ]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top' },
+      tooltip: {
+        callbacks: {
+          label(ctx) {
+            return `${ctx.dataset.label}: ${ctx.raw}%`;
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        stacked: true,
+        min: 0,
+        max: 100,
+        grid: { display: false },
+        ticks: { callback: v => v + '%' }
+      },
+      y: {
+        stacked: true,
+        grid: { display: false }
+      }
+    }
+  }
+});
+
+  // ── CHART 9: Registered Unemployment by Gender per Month 2017 (exact from notebook) ──
+const monthLabels = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const femalUnemp = [41984, 42034, 42115, 41201, 40271, 39174, 39263, 40152, 39174, 39670, 40355, 39723];
+const maleUnemp  = [37320, 37057, 36944, 35580, 34243, 32698, 32094, 32656, 32484, 33391, 34284, 34029];
+
+new Chart(document.getElementById('chartUnemployment'), {
+  type: 'bar',
+  data: {
+    labels: monthLabels,
+    datasets: [
+      {
+        label: 'Female',
+        data: femalUnemp,
+        backgroundColor: 'rgba(232,102,138,0.85)'
+      },
+      {
+        label: 'Male',
+        data: maleUnemp,
+        backgroundColor: 'rgba(43,158,143,0.85)'
+      }
+    ]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top' },
+      tooltip: {
+        callbacks: {
+          label(ctx) {
+            const total = femalUnemp[ctx.dataIndex] + maleUnemp[ctx.dataIndex];
+            const pct = ((ctx.raw / total) * 100).toFixed(1);
+            return `${ctx.dataset.label}: ${ctx.raw.toLocaleString()} (${pct}%)`;
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        stacked: true,
+        grid: { display: false },
+        ticks: { callback: v => v.toLocaleString() },
+        title: { display: true, text: 'Population' }
+      },
+      y: {
+        stacked: true,
+        grid: { display: false },
+        title: { display: true, text: 'Month' }
+      }
+    }
+  }
+});
+
+  // ── WORDCLOUD: Most Frequent Baby Names (exact 97 names from notebook) ──
+const names = [
+  {n:'MARC',s:5079},{n:'MARIA',s:3843},{n:'ALEX',s:3223},{n:'PAULA',s:3166},
+  {n:'POL',s:3131},{n:'LAIA',s:3094},{n:'JULIA',s:2976},{n:'PAU',s:2909},
+  {n:'CARLA',s:2621},{n:'DANIEL',s:2618},{n:'DAVID',s:2544},{n:'LAURA',s:2339},
+  {n:'CLAUDIA',s:2210},{n:'ARNAU',s:2182},{n:'ALBA',s:2107},{n:'ERIC',s:2082},
+  {n:'VICTOR',s:2010},{n:'LUCIA',s:1996},{n:'MARTINA',s:1991},{n:'ANNA',s:1950},
+  {n:'MARTA',s:1942},{n:'SARA',s:1924},{n:'GERARD',s:1738},{n:'ALEJANDRO',s:1720},
+  {n:'ANDREA',s:1590},{n:'PABLO',s:1582},{n:'ARIADNA',s:1556},{n:'MARTI',s:1554},
+  {n:'ADRIA',s:1532},{n:'ORIOL',s:1438},{n:'GUILLEM',s:1413},{n:'AINA',s:1368},
+  {n:'JAN',s:1304},{n:'JOAN',s:1297},{n:'BERTA',s:1215},{n:'CLARA',s:1208},
+  {n:'MARINA',s:1187},{n:'SOFIA',s:1141},{n:'JORDI',s:1132},{n:'ALBERT',s:1131},
+  {n:'EMMA',s:1084},{n:'SERGI',s:1001},{n:'BIEL',s:965},{n:'MIREIA',s:957},
+  {n:'NOA',s:944},{n:'HUGO',s:896},{n:'ROGER',s:881},{n:'JOEL',s:799},
+  {n:'IRENE',s:791},{n:'CRISTINA',s:752},{n:'CARLOS',s:665},{n:'JANA',s:662},
+  {n:'LUCAS',s:657},{n:'BRUNO',s:656},{n:'NURIA',s:642},{n:'CARLOTA',s:602},
+  {n:'OSCAR',s:565},{n:'XAVIER',s:565},{n:'MAR',s:553},{n:'IVAN',s:535},
+  {n:'NICOLAS',s:532},{n:'NIL',s:529},{n:'JAVIER',s:477},{n:'LEO',s:446},
+  {n:'ONA',s:437},{n:'ANA',s:419},{n:'VALENTINA',s:412},{n:'ABRIL',s:400},
+  {n:'MAX',s:391},{n:'OLIVIA',s:375},{n:'ALEIX',s:368},{n:'DANIELA',s:364},
+  {n:'JUDITH',s:268},{n:'IKER',s:250},{n:'SANDRA',s:240},{n:'MATEO',s:238},
+  {n:'NEREA',s:237},{n:'ARLET',s:210},{n:'JUDIT',s:197},{n:'NORA',s:166},
+  {n:'ADRIAN',s:140},{n:'RAQUEL',s:136},{n:'ALVARO',s:126},{n:'HELENA',s:123},
+  {n:'MIA',s:122},{n:'NATALIA',s:122},{n:'AINHOA',s:113},{n:'INES',s:109},
+  {n:'ROC',s:105},{n:'PATRICIA',s:71},{n:'RAUL',s:65},{n:'SERGIO',s:64},
+  {n:'GAEL',s:64},{n:'CHLOE',s:62},{n:'VALERIA',s:55},{n:'MARIO',s:46},
+  {n:'GABRIEL',s:44}
+];
+const wc = document.getElementById('wordcloud');
+const maxS = names[0].s;
+const minS = names[names.length - 1].s;
+const hues = [210, 340, 195, 330, 200, 350, 240, 320];
+names.forEach((item, i) => {
+  const span = document.createElement('span');
+  span.textContent = item.n;
+  const t = (item.s - minS) / (maxS - minS);
+  span.style.fontSize = (t * 32 + 10) + 'px';
+  const h = hues[i % hues.length];
+  const l = isDark ? (45 + Math.random() * 20) : (30 + Math.random() * 20);
+  span.style.color = 'hsl(' + h + ', 55%, ' + l + '%)';
+  wc.appendChild(span);
+});
 </script>
