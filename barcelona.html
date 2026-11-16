@@ -1,4 +1,22 @@
 <title>Barcelona Data Projects</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Interactive data analytics portfolio exploring Barcelona's demographics, migration, births & deaths, and unemployment — 10 visualizations built with Python & Chart.js.">
+
+<!-- Open Graph / LinkedIn -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Discovering Barcelona — Data Analytics Portfolio">
+<meta property="og:description" content="10 interactive visualizations exploring Barcelona's demographics, migration patterns, births & deaths, and unemployment trends. Built with Python & Chart.js by Putra Adyasa.">
+<meta property="og:url" content="https://putraadyasa.github.io/barcelona.html">
+<meta property="og:image" content="https://putraadyasa.github.io/assets/barcelona-preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Discovering Barcelona — Data Analytics Portfolio">
+<meta name="twitter:description" content="10 interactive visualizations exploring Barcelona's demographics, migration patterns, births & deaths, and unemployment trends.">
+<meta name="twitter:image" content="https://putraadyasa.github.io/assets/barcelona-preview.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500&display=swap">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-sankey@0.12.1/dist/chartjs-chart-sankey.min.js"></script>
@@ -1569,26 +1587,26 @@ new Chart(document.getElementById('chartEmigration'), {
       colorMode: 'gradient',
       labels: {
         'Barcelona': 'Barcelona',
-        'Catalonia': 'Catalonia',
-        'Abroad': 'Abroad',
-        'Community of Madrid': 'Community of Madrid',
-        'Valencian Community': 'Valencian Community',
-        'Andalusia': 'Andalusia',
-        'Balearic Islands': 'Balearic Islands',
-        'Galicia': 'Galicia',
-        'Canary Islands': 'Canary Islands',
-        'Aragon': 'Aragon',
-        'Castile and León': 'Castile and León',
-        'Basque Country': 'Basque Country',
-        'Castilla-La Mancha': 'Castilla-La Mancha',
-        'Region of Murcia': 'Region of Murcia',
-        'Asturias': 'Asturias',
-        'Extremadura': 'Extremadura',
-        'Navarre': 'Navarre',
-        'Cantabria': 'Cantabria',
-        'La Rioja': 'La Rioja',
-        'Melilla': 'Melilla',
-        'Ceuta': 'Ceuta'
+        'Catalonia': 'Catalonia  (35,036)',
+        'Abroad': 'Abroad  (5,485)',
+        'Community of Madrid': 'Community of Madrid  (2,647)',
+        'Valencian Community': 'Valencian Community  (1,711)',
+        'Andalusia': 'Andalusia  (1,596)',
+        'Balearic Islands': 'Balearic Islands  (1,428)',
+        'Galicia': 'Galicia  (795)',
+        'Canary Islands': 'Canary Islands  (789)',
+        'Aragon': 'Aragon  (745)',
+        'Castile and León': 'Castile and León  (517)',
+        'Basque Country': 'Basque Country  (475)',
+        'Castilla-La Mancha': 'Castilla-La Mancha  (347)',
+        'Region of Murcia': 'Region of Murcia  (243)',
+        'Asturias': 'Asturias  (204)',
+        'Extremadura': 'Extremadura  (201)',
+        'Navarre': 'Navarre  (186)',
+        'Cantabria': 'Cantabria  (132)',
+        'La Rioja': 'La Rioja  (72)',
+        'Melilla': 'Melilla  (27)',
+        'Ceuta': 'Ceuta  (12)'
       },
       nodeWidth: 24,
       borderWidth: 0
@@ -1597,7 +1615,7 @@ new Chart(document.getElementById('chartEmigration'), {
   options: {
     responsive: true,
     maintainAspectRatio: false,
-    color: '#FFFFFF',
+    color: '#D1D5DB',
     font: { size: 12, weight: '500', family: "'DM Sans', system-ui, sans-serif" },
     plugins: {
       legend: { display: false },
